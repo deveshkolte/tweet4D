@@ -5,19 +5,19 @@ export interface Persona {
 }
 
 export const DEFAULT_PERSONA: Persona = {
-  bio: "First-year engineering student in Bangalore building AI tools and agents, shipping real projects in public.",
-  niche: "AI agents & building in public as a student",
+  bio: "Edit your bio in Persona settings — this helps AI write in your voice.",
+  niche: "Edit your niche in settings",
   tone: "casual",
 };
 
 export const PERSONA = `
-Name: Devesh (@devesh13_)
-Location: Bangalore, India
-Background: First year engineering student, AI orchestrator, ships real projects
-Built: Chrome extension for prompt structuring (used by real people)
-Voice: Honest, slightly chaotic, genuinely excited, never corporate
-Goal: Meet builders, get opportunities in AI, grow authentically
-Niche: AI agents, automation, building in public as a student
+Name: {{YOUR_NAME}} (@{{YOUR_HANDLE}})
+Location: {{YOUR_LOCATION}}
+Background: {{YOUR_BACKGROUND}}
+Built: {{YOUR_PROJECTS}}
+Voice: {{YOUR_VOICE}}
+Goal: {{YOUR_GOAL}}
+Niche: {{YOUR_NICHE}}
 `;
 
 export const REPLY_INTENTS: Record<string, string> = {
@@ -35,13 +35,12 @@ CUSTOM PERSONA NOTES: ${persona.bio} (${persona.niche}, ${persona.tone} tone)`;
 }
 
 export function buildTweetPrompt(idea: string, hookStyle: string): string {
-  return `Write 5 tweets for Devesh (@devesh13_), first year engineering student in Bangalore building AI tools.
+  return `Write 5 tweets in the user's voice.
 
-DEVESH'S REAL BACKGROUND:
-- Built a Chrome extension that auto-structures prompts for ChatGPT, Claude, Gemini
-- Builds AI agents and automation workflows
-- Ships real projects while in first year engineering
-- Voice: honest, direct, slightly chaotic, never corporate, never polished
+ABOUT THE USER (customize your persona in settings):
+- {{YOUR_PROJECTS}}
+- {{YOUR_NICHE}}
+- Voice: {{YOUR_VOICE}}
 
 2026 X ALGORITHM — bake these into every tweet:
 - Replies worth 27x more than likes — every tweet needs a question that demands a reply
@@ -52,7 +51,7 @@ DEVESH'S REAL BACKGROUND:
 - Authenticity over polish — real failures beat perfect success stories
 
 ABSOLUTE RULES:
-- NEVER invent statistics Devesh hasn't actually measured — no fake user counts, no fake percentages
+- NEVER invent statistics — no fake user counts, no fake percentages
 - NEVER start the tweet with the word "I" — weak hook
 - NEVER use: "excited to share", "game changer", "revolutionize", "thrilled to announce"
 - NEVER use hashtags — algorithm flags them as spam now
@@ -60,7 +59,7 @@ ABSOLUTE RULES:
 - Each tweet MUST be under 260 characters — count every character
 - If the idea includes a number or stat, use it — if not, don't invent one
 - One question per tweet, at the very end
-- Sound like a real 19 year old who builds things, not a LinkedIn influencer
+- Sound like a real person who builds things, not a LinkedIn influencer
 
 HOOK STYLE: ${hookStyle}
 - auto: pick the strongest hook for this specific idea
@@ -89,22 +88,21 @@ Why it works: [one line algorithmic reason]
 5. [tweet text only — max 260 chars]
 Why it works: [one line algorithmic reason]
 
-DEVESH'S IDEA: ${idea}`;
+USER'S IDEA: ${idea}`;
 }
 
 export function buildReplyPrompt(tweet: string, intent: string): string {
-  return `Write replies for Devesh (@devesh13_), first year engineering student in Bangalore building AI tools and agents.
+  return `Write replies for the user.
 
 TWEET TO REPLY TO:
 "${tweet}"
 
 INTENT: ${intent}
 
-DEVESH'S ACTUAL BACKGROUND (only reference things he has actually built):
-- Built a Chrome extension that auto-structures prompts for ChatGPT, Claude, Gemini
-- Builds AI agents and automation workflows
-- First year engineering student, learns by shipping real things
-- Based in Bangalore, part of India's builder community
+ABOUT THE USER (customize your persona in settings):
+- {{YOUR_PROJECTS}}
+- {{YOUR_NICHE}}
+- Voice: {{YOUR_VOICE}}
 
 CRITICAL RULES:
 - Read the tweet carefully. Reply to EXACTLY what it says, not a generic version of the topic
@@ -112,16 +110,16 @@ CRITICAL RULES:
 - Never mention Indian AI models or companies unless the tweet specifically mentions them
 - Never start with agreement or compliment — start with your actual point
 - Under 180 characters — punchy and direct
-- Make the original poster want to reply to Devesh specifically
+- Make the original poster want to reply to you
 - Sound like a smart curious student who has actually built things
 - Zero hashtags, zero emojis unless the tweet had them
 - If you don't have a genuine specific insight about the topic — ask a sharp question instead
 
 INTENT GUIDE:
-- add_insight: one specific thing from Devesh's building experience that adds to their point
+- add_insight: one specific thing from your experience that adds to their point
 - ask_question: one sharp question that shows you read carefully and thought deeply  
 - respectful_disagree: one clear disagreement with your actual reasoning, not just "but what about X"
-- relate_experience: one specific thing from building the Chrome extension or AI agents that connects
+- relate_experience: one specific thing from your own experience that connects
 - be_witty: genuinely funny and smart, must still add real value
 
 Generate exactly 4 replies numbered 1, 2, 3, 4.
@@ -142,14 +140,12 @@ Why: [reason]`;
 }
 
 export function buildThreadPrompt(idea: string): string {
-  return `Write a Twitter thread for Devesh (@devesh13_), first year engineering student in Bangalore building AI tools.
+  return `Write a Twitter thread.
 
-ABOUT DEVESH:
-DEVESH'S BACKGROUND:
-- Built a Chrome extension that auto-structures prompts for ChatGPT, Claude, Gemini
-- Builds AI agents and automation tools
-- Ships real projects while studying first year engineering
-- Voice: honest, direct, slightly chaotic, never corporate
+ABOUT THE USER (customize in settings):
+- {{YOUR_PROJECTS}}
+- {{YOUR_NICHE}}
+- Voice: {{YOUR_VOICE}}
 
 2026 THREAD RULES:
 - Tweet 1 is the ONLY tweet pushed to new audiences by algorithm — must be the strongest hook
@@ -184,13 +180,13 @@ IDEA: ${idea}`;
 }
 
 export function buildReplyBackPrompt(originalTweet: string, theirReply: string): string {
-  return `Devesh (@devesh13_) posted a tweet and someone replied. Write his reply back.
+  return `The user posted a tweet and someone replied. Write a reply back.
 
 WHY THIS MATTERS:
-His tweet: "${originalTweet}"
+Your tweet: "${originalTweet}"
 They replied: "${theirReply}"
 
-CONTEXT: Devesh is a first year engineering student in Bangalore building AI tools. He built a Chrome extension for prompt structuring. He wants to start real conversations with people, not perform enthusiasm.
+CONTEXT: You are the user defined in your persona settings. You want to start real conversations with people, not perform enthusiasm.
 
 STRICT RULES:
 - NEVER start with "Wow", "Great", "Impressive", "Love this", "That's solid" or any compliment opener — these are conversation killers
@@ -213,7 +209,7 @@ Return ONLY the reply text, numbered 1, 2, 3. No explanations, no labels.`;
 }
 
 export function buildProfileOptimizePrompt(currentBio: string): string {
-  return `Optimize this Twitter bio for Devesh.
+  return `Optimize this Twitter bio for the user.
 
 CURRENT BIO: "${currentBio}"
 
@@ -231,7 +227,7 @@ Write 5 bio variations. Number them 1-5.`;
 }
 
 export function buildAnalyzePrompt(tweets: string): string {
-  return `Analyze these tweets from a creator Devesh wants to learn from.
+  return `Analyze these tweets from a creator the user wants to learn from.
 
 TWEETS TO ANALYZE:
 ${tweets}
@@ -246,16 +242,16 @@ PATTERNS FOUND:
 5. Their voice/personality in one sentence
 
 WHAT TO BORROW (not copy):
-List 3 specific techniques Devesh can use in his own tweets about AI and building
+List 3 specific techniques the user can use in their own tweets
 
-DEVESH'S VERSION:
-Write 3 original tweets in DEVESH'S voice using the patterns above.
-About his actual work: Chrome extension, AI agents, building as a student in Bangalore.
+YOUR VERSION:
+Write 3 original tweets in the user's voice using the patterns above.
+About their actual work as defined in persona.
 Each under 260 chars. No hashtags.`;
 }
 
 export function buildGrowthPlanPrompt(minutes: string, persona: string): string {
-  return `Create a realistic daily growth plan for Devesh (@devesh13_) with ${minutes} minutes per day.
+  return `Create a realistic daily growth plan for the user with ${minutes} minutes per day.
 
 PERSONA:
 ${PERSONA}
