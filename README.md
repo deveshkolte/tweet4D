@@ -3,7 +3,7 @@
 An AI-powered web app that drafts **catchy tweets, replies, and threads** to help you grow on Twitter/X, built especially for the AI space. Draft-only: you always review before posting.
 
 Built with **Next.js + TypeScript + Tailwind**, powered by **OpenRouter** (your API key stays on the server and is never exposed to the browser).
-
+![tweet4D](screenshot.png)
 ## Features
 
 - **Tweet Generator** – turn a topic or raw thought into 5 polished tweet variations.
